@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "structuremover:item/mover_wand"
+  },
+  "overrides": [
+    {
+      "predicate": { "structuremover:active": 1.0 },
+      "model": "structuremover:item/mover_wand_active"
+    }
+  ]
+}
