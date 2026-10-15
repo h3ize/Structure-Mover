@@ -53,7 +53,7 @@ public final class MoveService {
             BlockState st = level.getBlockState(p);
             if (st.isAir()) continue; // changed since selection
             BlockEntity be = level.getBlockEntity(p);
-            CompoundTag tag = be != null ? be.saveWithFull(reg) : null;
+            CompoundTag tag = be != null ? be.saveWithFullMetadata(reg) : null;
 
             int[] r = StructureMath.rotate(p.getX() - anchor.getX(), p.getZ() - anchor.getZ(), sel.rotation);
             BlockPos np = new BlockPos(
@@ -81,7 +81,7 @@ public final class MoveService {
             }
             if (!snapshot.containsKey(e.newPos())) {
                 BlockEntity be = level.getBlockEntity(e.newPos());
-                snapshot.put(e.newPos().immutable(), new Snap(existing, be != null ? be.saveWithFull(reg) : null));
+                snapshot.put(e.newPos().immutable(), new Snap(existing, be != null ? be.saveWithFullMetadata(reg) : null));
             }
         }
         if (blocked > 0) {
