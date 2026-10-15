@@ -1,0 +1,25 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "structuremover"
+version = "1.0.0"
+displayName = "Structure Mover"
+description = '''
+A wand that selects a whole connected building (like a Nether portal) and moves it somewhere else, with rotation, preview and undo.
+'''
+
+[[dependencies.structuremover]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.structuremover]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1]"
+ordering = "NONE"
+side = "BOTH"
