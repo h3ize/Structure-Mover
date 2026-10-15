@@ -1,6 +1,6 @@
 # Structure Mover (NeoForge 1.21.1)
 
-Wand that selects a whole connected building and moves it.
+Select a whole building with a wand, then move it anywhere with rotation, a live preview and one-click undo.
 
 ## Build
 1. Copy `gradlew`, `gradlew.bat` and `gradle/wrapper/gradle-wrapper.jar` from any official NeoForge 1.21.1 MDK into this folder
@@ -13,8 +13,10 @@ Wand that selects a whole connected building and moves it.
 - Right-click a block of the building: selects everything connected (green box).
 - Aim somewhere: orange box = where it will land (bottom-centre of the building goes on the block above the one you aim at).
 - Right-click air: rotate 90 degrees.
+- Right-click air with nothing selected (e.g. right after a move): undo the last move.
 - Right-click a block: move it. Sneak+click: cancel.
-- `/structuremover undo` reverts the last move.
 
-## Config (structuremover-common.toml)
+## Config
+Edit it in game under Mods > Structure Mover > Config, or in `structuremover-common.toml`.
+
 maxBlocks, diagonalConnections, ignoreTerrain, ignoredBlocks, overwriteExisting, requireCreativeMode

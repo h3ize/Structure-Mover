@@ -1,3 +1,24 @@
 {
-  "item.structuremover.mover_wand": "Structure Mover Wand"
+  "item.structuremover.mover_wand": "Structure Mover Wand",
+  "structuremover.configuration.title": "Structure Mover Config",
+  "structuremover.configuration.section.structuremover.common": "Structure Mover Config",
+  "structuremover.configuration.section.structuremover.common.title": "Structure Mover Config",
+  "structuremover.configuration.maxBlocks": "Max Blocks",
+  "structuremover.configuration.maxBlocks.tooltip": "Maximum number of blocks a single selection may contain.",
+  "structuremover.configuration.diagonalConnections": "Diagonal Connections",
+  "structuremover.configuration.diagonalConnections.tooltip": "Count blocks touching only by an edge or corner as connected.",
+  "structuremover.configuration.ignoreTerrain": "Ignore Terrain",
+  "structuremover.configuration.ignoreTerrain.tooltip": "Do not follow natural blocks like dirt, stone, sand, plants and liquids, so the scan never swallows the ground.",
+  "structuremover.configuration.moveTreeLeaves": "Move Tree Leaves",
+  "structuremover.configuration.moveTreeLeaves.tooltip": "Move the leaves that belong to a selected tree too.",
+  "structuremover.configuration.replaceTerrainAtDestination": "Replace Terrain At Destination",
+  "structuremover.configuration.replaceTerrainAtDestination.tooltip": "Replace natural terrain at the destination instead of being blocked by it. Undo restores it.",
+  "structuremover.configuration.ignoredBlocks": "Ignored Blocks",
+  "structuremover.configuration.ignoredBlocks.tooltip": "Extra blocks the scan must not follow. Block ids or #tags.",
+  "structuremover.configuration.alwaysIncludeBlocks": "Always Include Blocks",
+  "structuremover.configuration.alwaysIncludeBlocks.tooltip": "Blocks that are never treated as terrain. Block ids or #tags.",
+  "structuremover.configuration.overwriteExisting": "Overwrite Existing",
+  "structuremover.configuration.overwriteExisting.tooltip": "Allow the moved building to replace any existing block at the destination.",
+  "structuremover.configuration.requireCreativeMode": "Require Creative Mode",
+  "structuremover.configuration.requireCreativeMode.tooltip": "Only players in creative mode can use the wand."
 }

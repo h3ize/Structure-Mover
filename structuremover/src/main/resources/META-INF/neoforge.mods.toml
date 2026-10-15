@@ -4,10 +4,10 @@ license = "MIT"
 
 [[mods]]
 modId = "structuremover"
-version = "1.1.0"
+version = "1.2.0"
 displayName = "Structure Mover"
 description = '''
-A wand that selects a whole connected building (like a Nether portal) and moves it somewhere else, with rotation, preview and undo.
+Select a whole building with a wand, then move it anywhere with rotation, a live preview and one-click undo.
 '''
 
 [[dependencies.structuremover]]

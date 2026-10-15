@@ -87,7 +87,7 @@ public class MoverWandItem extends Item {
         return InteractionResult.SUCCESS;
     }
 
-    /** Right-click in the air: rotate the selection 90 degrees (sneak: cancel it). */
+    /** Right-click in the air: rotate the selection 90 degrees, or undo the last move if nothing is selected (sneak: cancel). */
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player p, InteractionHand hand) {
         ItemStack stack = p.getItemInHand(hand);
@@ -97,7 +97,8 @@ public class MoverWandItem extends Item {
             } else {
                 Selection sel = SelectionManager.get(player);
                 if (sel == null) {
-                    msg(player, "Nothing selected. Right-click a block of the building first.", false);
+                    MoveService.Result r = MoveService.undo(player);
+                    msg(player, r.message(), r.ok());
                 } else {
                     sel.rotation = (sel.rotation + 1) & 3;
                     sel.writeTo(stack);
@@ -130,6 +131,7 @@ public class MoverWandItem extends Item {
         }
         Selection sel = new Selection(level.dimension(), res.positions());
         SelectionManager.put(player, sel);
+        MoveService.forget(player.getUUID());
         sel.writeTo(stack);
 
         StringBuilder sb = new StringBuilder("Selected " + res.positions().size() + " blocks");
@@ -166,8 +168,7 @@ public class MoverWandItem extends Item {
         tooltip.add(Component.literal("Right-click a building: select it (trees take their leaves)").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.literal("Right-click a block again: move it there (1 use)").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.literal("Right-click air: rotate 90 degrees").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal("Right-click air again after a move: undo it").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.literal("Sneak + click: cancel").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.literal("Repair with amethyst shards in an anvil").withStyle(ChatFormatting.LIGHT_PURPLE));
-        tooltip.add(Component.literal("/structuremover undo reverts the last move").withStyle(ChatFormatting.DARK_AQUA));
     }
 }

@@ -118,7 +118,7 @@ public final class MoveService {
 
         level.playSound(null, targetAnchor, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
         UNDO.put(player.getUUID(), new UndoData(level.dimension(), snapshot));
-        return new Result(true, "Moved " + entries.size() + " blocks" + (carved > 0 ? " (replaced " + carved + " terrain blocks)" : "") + ". /structuremover undo reverts it.");
+        return new Result(true, "Moved " + entries.size() + " blocks" + (carved > 0 ? " (replaced " + carved + " terrain blocks)" : "") + ". Right-click the air to undo.");
     }
 
     public static Result undo(ServerPlayer player) {
