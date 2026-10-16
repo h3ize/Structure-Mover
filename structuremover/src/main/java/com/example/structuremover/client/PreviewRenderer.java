@@ -9,7 +9,14 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockState;
+import com.example.structuremover.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -76,9 +83,46 @@ public final class PreviewRenderer {
                     t.getX() + rMaxX + 1, t.getY() + (maxY - ay) + 1, t.getZ() + rMaxZ + 1)
                     .move(-cam.x, -cam.y, -cam.z);
             LevelRenderer.renderLineBox(ps, vc, ghost, 1.0F, 0.75F, 0.2F, pulse);
+            buffers.endBatch(RenderType.lines());
+
+            if (Config.PREVIEW_BLOCKS.get()) renderGhostBlocks(mc, ps, cam, buffers, t, ax, ay, az, rot);
         }
 
         buffers.endBatch(RenderType.lines());
+    }
+
+    /** Draws the selected building's visible blocks, rotated and offset to the aimed spot, as see-through blocks. */
+    private static void renderGhostBlocks(Minecraft mc, PoseStack ps, Vec3 cam, MultiBufferSource.BufferSource buffers,
+                                          BlockPos target, int ax, int ay, int az, int rot) {
+        long[] shell = ClientSelectionCache.get();
+        if (shell.length == 0) return;
+
+        int max = Config.PREVIEW_MAX_BLOCKS.get();
+        int stride = Math.max(1, (shell.length + max - 1) / max);
+        float alpha = Config.PREVIEW_OPACITY.get().floatValue();
+        Rotation rotation = StructureMath.toRotation(rot);
+        BlockRenderDispatcher dispatcher = mc.getBlockRenderer();
+
+        GhostVertexConsumer ghost = new GhostVertexConsumer(buffers.getBuffer(RenderType.translucent()), alpha);
+        MultiBufferSource ghostSource = type -> ghost;
+
+        for (int i = 0; i < shell.length; i += stride) {
+            BlockPos src = BlockPos.of(shell[i]);
+            BlockState state = mc.level.getBlockState(src);
+            if (state.isAir() || state.getRenderShape() != RenderShape.MODEL) continue;
+
+            int[] r = StructureMath.rotate(src.getX() - ax, src.getZ() - az, rot);
+            double dx = target.getX() + r[0] - cam.x;
+            double dy = target.getY() + (src.getY() - ay) - cam.y;
+            double dz = target.getZ() + r[1] - cam.z;
+
+            ps.pushPose();
+            ps.translate(dx, dy, dz);
+            dispatcher.renderSingleBlock(state.rotate(rotation), ps, ghostSource,
+                    LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+            ps.popPose();
+        }
+        buffers.endBatch(RenderType.translucent());
     }
 
     private PreviewRenderer() {}

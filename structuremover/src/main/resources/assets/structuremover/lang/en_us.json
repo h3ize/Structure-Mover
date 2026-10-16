@@ -20,5 +20,11 @@
   "structuremover.configuration.overwriteExisting": "Overwrite Existing",
   "structuremover.configuration.overwriteExisting.tooltip": "Allow the moved building to replace any existing block at the destination.",
   "structuremover.configuration.requireCreativeMode": "Require Creative Mode",
-  "structuremover.configuration.requireCreativeMode.tooltip": "Only players in creative mode can use the wand."
+  "structuremover.configuration.requireCreativeMode.tooltip": "Only players in creative mode can use the wand.",
+  "structuremover.configuration.showBlockPreview": "Show Block Preview",
+  "structuremover.configuration.showBlockPreview.tooltip": "Show a transparent preview of the selected blocks where they will be placed.",
+  "structuremover.configuration.previewOpacity": "Preview Opacity",
+  "structuremover.configuration.previewOpacity.tooltip": "How see-through the placement preview is (1.0 = solid).",
+  "structuremover.configuration.previewMaxBlocks": "Preview Max Blocks",
+  "structuremover.configuration.previewMaxBlocks.tooltip": "Most blocks drawn in the placement preview. Bigger buildings are thinned out evenly."
 }

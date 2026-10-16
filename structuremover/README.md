@@ -11,7 +11,7 @@ Select a whole building with a wand, then move it anywhere with rotation, a live
 ## Use
 - Craft: amethyst shard (top-right), diamond (centre), stick (bottom-left) + ender pearl (next to the stick), shaped diagonally. 10 uses; mending and unbreaking work; repair with amethyst shards.
 - Right-click a block of the building: selects everything connected (green box).
-- Aim somewhere: orange box = where it will land (bottom-centre of the building goes on the block above the one you aim at).
+- Aim somewhere: a transparent copy of the building shows exactly where it will land, rotated as it will be placed (orange box = its outline) (bottom-centre of the building goes on the block above the one you aim at).
 - Right-click air: rotate 90 degrees.
 - Right-click air with nothing selected (e.g. right after a move): undo the last move.
 - Right-click a block: move it. Sneak+click: cancel.
@@ -19,4 +19,4 @@ Select a whole building with a wand, then move it anywhere with rotation, a live
 ## Config
 Edit it in game under Mods > Structure Mover > Config, or in `structuremover-common.toml`.
 
-maxBlocks, diagonalConnections, ignoreTerrain, ignoredBlocks, overwriteExisting, requireCreativeMode
+showBlockPreview, previewOpacity, previewMaxBlocks, maxBlocks, diagonalConnections, ignoreTerrain, ignoredBlocks, overwriteExisting, requireCreativeMode

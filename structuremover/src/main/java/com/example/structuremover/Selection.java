@@ -1,6 +1,8 @@
 package com.example.structuremover;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -38,6 +40,27 @@ public final class Selection {
         this.min = new BlockPos(minX, minY, minZ);
         this.max = new BlockPos(maxX, maxY, maxZ);
         this.anchor = new BlockPos((minX + maxX) >> 1, minY, (minZ + maxZ) >> 1);
+    }
+
+    /** Blocks with at least one open side (what you can actually see), thinned evenly to at most {@code cap} entries. */
+    public long[] previewShell(int cap) {
+        Set<Long> all = new HashSet<>(positions.size() * 2);
+        for (BlockPos p : positions) all.add(p.asLong());
+        long[] out = new long[positions.size()];
+        int n = 0;
+        for (BlockPos p : positions) {
+            int x = p.getX(), y = p.getY(), z = p.getZ();
+            if (!all.contains(BlockPos.asLong(x + 1, y, z)) || !all.contains(BlockPos.asLong(x - 1, y, z))
+                    || !all.contains(BlockPos.asLong(x, y + 1, z)) || !all.contains(BlockPos.asLong(x, y - 1, z))
+                    || !all.contains(BlockPos.asLong(x, y, z + 1)) || !all.contains(BlockPos.asLong(x, y, z - 1))) {
+                out[n++] = p.asLong();
+            }
+        }
+        if (n <= cap) return java.util.Arrays.copyOf(out, n);
+        int stride = (n + cap - 1) / cap;
+        long[] thinned = new long[(n + stride - 1) / stride];
+        for (int i = 0, j = 0; i < n; i += stride) thinned[j++] = out[i];
+        return thinned;
     }
 
     public void writeTo(ItemStack stack) {

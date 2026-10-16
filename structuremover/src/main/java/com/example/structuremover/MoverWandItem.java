@@ -21,6 +21,7 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class MoverWandItem extends Item {
     public MoverWandItem(Properties properties) {
@@ -79,6 +80,7 @@ public class MoverWandItem extends Item {
             msg(player, r.message(), r.ok());
             if (r.ok()) {
                 SelectionManager.remove(player);
+                syncPreview(player, null);
                 Selection.clearFrom(stack);
                 EquipmentSlot slot = ctx.getHand() == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
                 stack.hurtAndBreak(1, player, slot); // one use per successful move
@@ -133,6 +135,7 @@ public class MoverWandItem extends Item {
         SelectionManager.put(player, sel);
         MoveService.forget(player.getUUID());
         sel.writeTo(stack);
+        syncPreview(player, sel);
 
         StringBuilder sb = new StringBuilder("Selected " + res.positions().size() + " blocks");
         if (res.leaves() > 0) sb.append(" (").append(res.leaves()).append(" leaves)");
@@ -141,8 +144,15 @@ public class MoverWandItem extends Item {
         msg(player, sb.toString(), true);
     }
 
+    /** Sends the selection's outer blocks to the client so it can draw the transparent placement preview. */
+    private static void syncPreview(ServerPlayer player, Selection sel) {
+        long[] shell = sel == null ? new long[0] : sel.previewShell(50000);
+        PacketDistributor.sendToPlayer(player, new SelectionSyncPayload(shell));
+    }
+
     private static void clear(ServerPlayer player, ItemStack stack) {
         SelectionManager.remove(player);
+        syncPreview(player, null);
         Selection.clearFrom(stack);
         msg(player, "Selection cleared.", true);
     }

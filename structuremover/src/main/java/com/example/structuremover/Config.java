@@ -20,6 +20,9 @@ public final class Config {
     public static final ModConfigSpec.ConfigValue<List<? extends String>> ALWAYS_INCLUDE;
     public static final ModConfigSpec.BooleanValue OVERWRITE;
     public static final ModConfigSpec.BooleanValue CREATIVE_ONLY;
+    public static final ModConfigSpec.BooleanValue PREVIEW_BLOCKS;
+    public static final ModConfigSpec.DoubleValue PREVIEW_OPACITY;
+    public static final ModConfigSpec.IntValue PREVIEW_MAX_BLOCKS;
 
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
@@ -41,6 +44,12 @@ public final class Config {
                 .define("overwriteExisting", false);
         CREATIVE_ONLY = b.comment("If true, only players in creative mode can use the wand.")
                 .define("requireCreativeMode", false);
+        PREVIEW_BLOCKS = b.comment("Show a transparent preview of the selected blocks where they will be placed.")
+                .define("showBlockPreview", true);
+        PREVIEW_OPACITY = b.comment("How see-through the placement preview is (1.0 = solid).")
+                .defineInRange("previewOpacity", 0.5, 0.1, 1.0);
+        PREVIEW_MAX_BLOCKS = b.comment("Most blocks drawn in the placement preview. Bigger buildings are thinned out evenly to keep the framerate up.")
+                .defineInRange("previewMaxBlocks", 2500, 100, 20000);
         SPEC = b.build();
     }
 
